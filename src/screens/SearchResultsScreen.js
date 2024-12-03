@@ -133,7 +133,9 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectFilteredCategories, setSearchQuery } from '../redux/featurs/categoriesSlice/CategoriesSlice';
-import BottomTab from '../navigations/appNavigation/BottomNavigation';
+// import BottomTab from '../navigations/appNavigation/BottomNavigation';
+import UserNavBar from '../components/molecules/UserNavBar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const SearchResultsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -145,7 +147,9 @@ const SearchResultsScreen = ({ navigation }) => {
   };
 
   return (
-    <>
+    <GestureHandlerRootView>
+      <>
+    <UserNavBar showUserInfo={false} flex='flex-end' goBack={true} mgBottom={10} />
     <View style={{ flex: 1, padding: 20 }}>
       {/* Search Bar */}
       <View style={{ flexDirection: 'row', marginBottom: 20 }}>
@@ -203,6 +207,7 @@ const SearchResultsScreen = ({ navigation }) => {
     <BottomTab/>
    </View>
    </>
+    </GestureHandlerRootView>
   );
 };
 

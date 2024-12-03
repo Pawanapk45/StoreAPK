@@ -87,7 +87,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { GestureHandlerRootView, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { removeItemFromCart, incrementQuantity, decrementQuantity } from "../redux/featurs/cartSlice/CartSliceProduct";
-import BottomTab from "../navigations/appNavigation/BottomNavigation";
+import UserNavBar from "../components/molecules/UserNavBar";
 
 const CatScreen = ({navigation}) => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -114,7 +114,7 @@ const CatScreen = ({navigation}) => {
 
   return (
     <GestureHandlerRootView>
-     <ScrollView>
+     <UserNavBar showUserInfo={false} flex='flex-end' goBack={true} mgBottom={10} />
      <View style={{ flex: 1, padding: 10 }}>
         {cartItems.length > 0 ? (
           <>
@@ -122,7 +122,7 @@ const CatScreen = ({navigation}) => {
               data={cartItems}
               keyExtractor={(item, index) => index.toString()}
               showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => (
+              renderItem={({ item   }) => (
                 <View style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -131,6 +131,7 @@ const CatScreen = ({navigation}) => {
                   borderRadius: 20,
                   paddingVertical: 5,
                   marginVertical: 5,
+                  elevation: 5,
                 }}>
                   <Image
                     source={{ uri: item.image }}
@@ -219,8 +220,8 @@ const CatScreen = ({navigation}) => {
           </View>
         )}
       </View>
-     </ScrollView>
-      <BottomTab />
+    
+     
     </GestureHandlerRootView>
    
   );

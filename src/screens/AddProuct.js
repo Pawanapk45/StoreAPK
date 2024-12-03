@@ -247,7 +247,7 @@ const AddProduct = ({ route, navigation }) => {
 
   return (
     <GestureHandlerRootView>
-      <UserNavBar />
+      <UserNavBar showUserInfo={false} flex='flex-end' goBack={true} mgBottom={10} />
 
       <FlatList
         data={item.subcategories}
@@ -274,6 +274,7 @@ const AddProduct = ({ route, navigation }) => {
                   borderRadius: 20,
                   paddingVertical: 5,
                   margin: 5,
+                  elevation: 5,
                 }}
               >
                 <Image

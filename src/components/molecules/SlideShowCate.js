@@ -31,7 +31,7 @@ const SlideShowCate = () => {
                         <TouchableOpacity disabled={true}>
                             <View style={{
                                 backgroundColor: 'lightpink',
-                                width:350, 
+                                width:320, 
                                 borderRadius: 20,
                                 height: 200,
                                 marginHorizontal: 20,

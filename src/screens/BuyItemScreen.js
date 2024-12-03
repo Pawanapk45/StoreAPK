@@ -123,6 +123,7 @@ import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
 import UserAddress from "../components/molecules/UserAddress";
 import { GestureHandlerRootView, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import CustomComponent from "../components/modals/Component";
 
 const BuyItemScreen = ({ route }) => {
   const { items, total } = route.params;
@@ -143,10 +144,11 @@ const BuyItemScreen = ({ route }) => {
 
   return (
     <GestureHandlerRootView>
+       <CustomComponent ShowIcon={false} textContent={"Items to Buy"}/> 
       <ScrollView>
       <View style={styles.container}>
-      <Text style={styles.header}>Items to Buy</Text>
-      
+      {/* <Text style={styles.header}>Items to Buy</Text> */}
+          
       <FlatList
         data={items}
         keyExtractor={(item, index) => index.toString()}

@@ -80,6 +80,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // AsyncStorage इंपोर्ट करें
 import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -100,7 +101,7 @@ const Login = ({navigation}) => {
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         Alert.alert('Success', 'Login Successful');
-        await AsyncStorage.setItem("isLoggedIn", "true");
+        await AsyncStorage.setItem('isLoggedIn', 'true');
         navigation.reset({
           index: 0,
           routes: [{name: 'ShomeHomeScreen'}],
@@ -132,6 +133,46 @@ const Login = ({navigation}) => {
     // }
   };
 
+  GoogleSignin.configure({
+    offlineAccess: true,
+    webClientId:
+      '798438603522-mj5q584bhsnfr9khjgkt56omajrljfll.apps.googleusercontent.com',
+  });
+
+  // google prss btn function
+  async function onGoogleButtonPress() {
+    try {
+      // Check if your device supports Google Play
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+
+      // Get the user's ID token
+      const userInfo = await GoogleSignin.signIn();
+      const {idToken} = userInfo;
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      await auth().signInWithCredential(googleCredential);
+
+      // Login Successful Alert
+      Alert.alert('Success', 'Login Successful with Google!');
+      await AsyncStorage.setItem('isLoggedIn', 'true');
+
+      // Navigate to Home Screen
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'ShomeHomeScreen'}],
+      });
+    } catch (error) {
+      console.error('Google Sign-In Error:', error);
+      Alert.alert(
+        'Error',
+        'Network Error: Please check your connection and try again.',
+      );
+    }
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -144,6 +185,9 @@ const Login = ({navigation}) => {
           />
         </View>
         <View>
+          <Text style={styles.heading}>Welcome to QWERTY</Text>
+        </View>
+        <View>
           <View
             style={{
               borderBottomColor: '#4776db',
@@ -154,6 +198,24 @@ const Login = ({navigation}) => {
             }}>
             <Text style={styles.Loginlogo}>Login</Text>
           </View>
+          {/* <View
+            style={{
+              // borderBottomColor: '#4776db',
+              // borderBottomWidth: 5,
+              width: '70%',
+              alignItems: 'center',
+              margin: 'auto',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginVertical: 20,
+            }}>
+            <TouchableOpacity style={{marginHorizontal: 20}}>
+              <Text style={{color: 'blue', fontSize: 20}}>Login by Email</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginHorizontal: 20}}>
+              <Text style={{color: 'blue', fontSize: 20}}>Login by Phone</Text>
+            </TouchableOpacity>
+          </View> */}
           <View style={styles.inputContainer}>
             <Icon name="user" style={styles.inputIcon} />
             <TextInput
@@ -188,7 +250,13 @@ const Login = ({navigation}) => {
             onPress={() => navigation.navigate('SignIn')}>
             <Text style={styles.loginBtntxt}>Sign In</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.socialBtn}>
+          <TouchableOpacity
+            style={styles.socialBtn}
+            onPress={() =>
+              onGoogleButtonPress().then(() =>
+                console.log('Signed in with Google!'),
+              )
+            }>
             <Icon name="google-plus" style={styles.googleIcon} />
             <Text style={styles.sociallogin}>Login with Google</Text>
           </TouchableOpacity>
@@ -217,6 +285,13 @@ const styles = StyleSheet.create({
   waveLogo: {
     width: '100%',
     height: 180,
+  },
+  heading: {
+    textAlign: 'center',
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#f78da7',
   },
   Loginlogo: {
     fontSize: 35,

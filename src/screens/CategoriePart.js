@@ -3,6 +3,7 @@ import { View, Text , Image } from "react-native";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
+import UserNavBar from "../components/molecules/UserNavBar";
 
 const CategoriesPart = ({route })=> {
     const { item } = route.params;
@@ -12,6 +13,7 @@ const CategoriesPart = ({route })=> {
 
     return (
         <GestureHandlerRootView>
+          <UserNavBar showUserInfo={false} flex='flex-end' goBack={true} mgBottom={10} />
           <View>
       <View>
         <Text style={{ marginTop: 20, fontSize: 20, marginLeft: 20 }}>Categories</Text>
@@ -36,7 +38,8 @@ const CategoriesPart = ({route })=> {
               shadowOpacity: 0.1,
               shadowRadius: 10,
               elevation: 10,
-              marginTop:20
+              marginTop:20,
+              marginBottom:20
             }}
           >
             {/* <TouchableOpacity onPress={() => console.log(item.subcategories.image)}> */}
